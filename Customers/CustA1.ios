@@ -16,6 +16,8 @@ no shut
 
 
 #2.2/A/
+! ###HERE I AM NOT SURE IF THE COMMENTED PARTS IS THE CORRECT CONFIG
+! ###CAN ALSO ADD ROUTER IDs TO BGP FOR MORE CLARITY
 ! vrf definition VPN-A
 ! rd 65100:1
 !  address-family ipv4

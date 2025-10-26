@@ -67,14 +67,14 @@ no shut
 router bgp 65100
 !
 address-family ipv4 vrf VPN-A
-redistribute connected
-neighbor 10.1.0.1 remote-as 65001
-neighbor 10.1.0.1 activate
+ redistribute connected
+ neighbor 10.1.0.1 remote-as 65001
+ neighbor 10.1.0.1 activate
 !
 address-family ipv4 vrf VPN-B
-redistribute connected
-neighbor 10.2.0.1 remote-as 65002
-neighbor 10.2.0.1 activate
+ redistribute connected
+ neighbor 10.2.0.1 remote-as 65002
+ neighbor 10.2.0.1 activate
 
 
 #2.2/B/
@@ -90,11 +90,17 @@ int g3/0
 
 #2.3/A/
 
+! router bgp 65100
+!  address-family vpnv4
+!   neighbor 192.168.2.72 activate
+!   neighbor 192.168.2.72 send-community extended
+!   neighbor 192.168.2.73 activate
+!   neighbor 192.168.2.73 send-community extended
+!   neighbor 192.168.2.74 activate
+!   neighbor 192.168.2.74 send-community extended
+
 router bgp 65100
  address-family vpnv4
-  neighbor 192.168.2.72 activate
-  neighbor 192.168.2.72 send-community extended
-  neighbor 192.168.2.73 activate
-  neighbor 192.168.2.73 send-community extended
-  neighbor 192.168.2.74 activate
-  neighbor 192.168.2.74 send-community extended
+  neighbor 192.168.2.4 activate  ! Loopback0 of NT4
+  neighbor 192.168.2.4 send-community extended 
+  

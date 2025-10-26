@@ -34,8 +34,8 @@ route-target import 100:10
 vrf definition VPN-B
 rd 65100:2
 address-family ipv4
-route-target export 100:10
-route-target import 100:10
+route-target export 100:20
+route-target import 100:20
 !
 interface gigab2/0.1
 vrf forwarding VPN-A

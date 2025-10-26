@@ -1,0 +1,11 @@
+conf t
+
+int g1/0
+ mpls ip
+ no shut
+!
+
+int faste0/0
+ mpls ip
+ no shut
+!

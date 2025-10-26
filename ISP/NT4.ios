@@ -1,0 +1,100 @@
+#Configure VPN-A
+conf t
+interface gigabite2/0.1
+Description VLAN 10
+encapsulation dot1q 10
+ip address 10.1.0.2 255.255.255.254
+no shut
+exit
+
+#Configure VPN-B
+interface faste0/1.1
+Description VLAN 20
+encapsulation dot1q 20
+ip address 10.2.0.2 255.255.255.254
+no shut
+
+#c/ 
+
+interface Loopback3
+ip address 10.1.0.14 255.255.255.255
+no shut
+interface Loopback4
+ip address 10.2.0.14 255.255.255.255
+no shut
+
+#d/ (show ip vrf)
+
+vrf definition VPN-A
+rd 65100:1
+address-family ipv4
+route-target export 100:10
+route-target import 100:10
+!
+vrf definition VPN-B
+rd 65100:2
+address-family ipv4
+route-target export 100:10
+route-target import 100:10
+!
+interface gigab2/0.1
+vrf forwarding VPN-A
+ip address 10.1.0.2 255.255.255.254
+no shut
+!
+interface faste0/0.1
+vrf forwarding VPN-B
+ip address 10.2.0.2 255.255.255.254
+no shut
+!
+interface Loopback3
+vrf forwarding VPN-A
+ip address 10.1.0.14 255.255.255.255
+no shut
+!
+interface Loopback4
+vrf forwarding VPN-B
+ip address 10.2.0.14 255.255.255.255
+no shut
+
+
+#2.2/A/
+
+router bgp 65100
+!
+address-family ipv4 vrf VPN-A
+redistribute connected
+neighbor 10.1.0.3 remote-as 65003
+neighbor 10.1.0.3 activate
+!
+address-family ipv4 vrf VPN-B
+redistribute connected
+neighbor 10.2.0.3 remote-as 65004
+neighbor 10.2.0.3 activate
+
+
+#address-family vpnv4 --> to be use
+
+
+
+#2.2/B/
+int faste0/0
+ mpls ip
+ no shut
+!
+int g1/0
+ mpls ip
+ no shut
+!
+
+
+#2.3/A/
+
+router bgp 65100
+ address-family vpnv4
+  neighbor 192.168.2.71 activate
+  neighbor 192.168.2.71 send-community extended
+  neighbor 192.168.2.72 activate
+  neighbor 192.168.2.72 send-community extended
+  neighbor 192.168.2.73 activate
+  neighbor 192.168.2.73 send-community extended

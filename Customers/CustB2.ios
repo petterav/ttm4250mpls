@@ -1,0 +1,24 @@
+conf t
+int fastEthernet 0/0
+no shut
+!
+!
+int fastEthernet 0/0.1
+Description VLAN 20
+encapsulation dot1q 20
+ip add 10.2.0.3 255.255.255.254
+no shut
+!
+!
+int loopback 2 
+ip add 10.0.200.22 255.255.255.255
+no shut
+
+
+
+#2.2/A/
+router bgp 65004
+!
+ neighbor 10.2.0.2 remote-as 65100
+ neighbor 10.2.0.2 activate
+ network 10.0.200.22 mask 255.255.255.255

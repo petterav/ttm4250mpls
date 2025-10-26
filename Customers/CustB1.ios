@@ -1,0 +1,25 @@
+# Configure VLAN on the interfaces
+conf t
+interface faste0/0
+no shut
+!
+!
+interface faste0/0.1
+Description Vlan 20
+encapsulation dot1q 20
+ip address 10.2.0.1 255.255.255.254
+no shut
+!
+!
+int loopback 2 
+ip add 10.0.100.12 255.255.255.255
+no shut
+
+
+
+#2.2/A/
+router bgp 65002
+!
+ neighbor 10.2.0.0 remote-as 65100
+ neighbor 10.2.0.0 activate
+ network 10.0.100.12 mask 255.255.255.255

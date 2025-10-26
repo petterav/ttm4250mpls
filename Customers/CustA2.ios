@@ -1,0 +1,23 @@
+conf t
+int gigabite2/0
+no shut
+!
+!
+int gigabite2/0.1
+description VLAN 10
+encapsulation dot1q 10
+ip address 10.1.0.3 255.255.255.254
+!
+!
+int loopback 2 
+ip add 10.0.200.22 255.255.255.255
+no shut
+
+
+
+#2.2/A/
+router bgp 65003
+!
+ neighbor 10.1.0.2 remote-as 65100
+ neighbor 10.1.0.2 activate
+ network 10.0.200.22 mask 255.255.255.255

@@ -94,16 +94,16 @@ int g1/0
 ! MIGHT BE THAT THE COMMENTED IS ACTUALLY THE CORRECT CONFIG 
 ! BUT MY UNDERSTANDING IS THAT THE P ROUTERS ONLY TALK MPLS
 ! AND THEREFORE DOES NOT NEED TO BE CONFIGURED AS VPNV4 NEIGHBORS 
-! router bgp 65100
-!  address-family vpnv4
-!   neighbor 192.168.2.71 activate
-!   neighbor 192.168.2.71 send-community extended
-!   neighbor 192.168.2.72 activate
-!   neighbor 192.168.2.72 send-community extended
-!   neighbor 192.168.2.73 activate
-!   neighbor 192.168.2.73 send-community extended
-
 router bgp 65100
  address-family vpnv4
-  neighbor 192.168.2.1 activate  ! Loopback0 of NT1
-  neighbor 192.168.2.1 send-community extended 
+  neighbor 192.168.2.71 activate
+  neighbor 192.168.2.71 send-community extended
+  neighbor 192.168.2.72 activate
+  neighbor 192.168.2.72 send-community extended
+  neighbor 192.168.2.73 activate
+  neighbor 192.168.2.73 send-community extended
+
+! router bgp 65100
+!  address-family vpnv4
+!   neighbor 192.168.2.1 activate  ! Loopback0 of NT1
+!   neighbor 192.168.2.1 send-community extended 

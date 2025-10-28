@@ -1,10 +1,10 @@
 conf t
-int gigabite2/0
+interface gigabite2/0
 no shut
 !
 !
 int gigabite2/0.1
-description VLAN 10
+Description Vlan 10
 encapsulation dot1q 10
 ip address 10.1.0.3 255.255.255.254
 !

@@ -14,6 +14,9 @@ encapsulation dot1q 20
 ip address 10.2.0.2 255.255.255.254
 no shut
 
+
+
+
 #c/ 
 
 interface Loopback3
@@ -22,6 +25,7 @@ no shut
 interface Loopback4
 ip address 10.2.0.14 255.255.255.255
 no shut
+
 
 #d/ (show ip vrf)
 
@@ -42,7 +46,7 @@ vrf forwarding VPN-A
 ip address 10.1.0.2 255.255.255.254
 no shut
 !
-interface faste0/0.1
+interface faste0/1.1
 vrf forwarding VPN-B
 ip address 10.2.0.2 255.255.255.254
 no shut
@@ -73,8 +77,6 @@ address-family ipv4 vrf VPN-B
  neighbor 10.2.0.3 activate
 
 
-#address-family vpnv4 --> to be use
-
 
 
 #2.2/B/
@@ -103,5 +105,5 @@ int g1/0
 
 router bgp 65100
  address-family vpnv4
-  neighbor 192.168.2.1 activate  ! Loopback0 of NT4
+  neighbor 192.168.2.1 activate  ! Loopback0 of NT1
   neighbor 192.168.2.1 send-community extended 

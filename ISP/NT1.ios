@@ -5,6 +5,7 @@ Description VLAN 10
 encapsulation dot1q 10
 ip address 10.1.0.0 255.255.255.254
 no shut
+exit
 
 #Configure VPN-B
 interface faste0/1.1
@@ -12,7 +13,6 @@ Description VLAN 20
 encapsulation dot1q 20
 ip address 10.2.0.0 255.255.255.254
 no shut
-
 
 
 
@@ -75,6 +75,8 @@ address-family ipv4 vrf VPN-B
  redistribute connected
  neighbor 10.2.0.1 remote-as 65002
  neighbor 10.2.0.1 activate
+
+
 
 
 #2.2/B/

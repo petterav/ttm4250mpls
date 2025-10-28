@@ -1,0 +1,410 @@
+#A1
+conf t
+
+vrf definition VPN-A
+rd 65100:1
+ address-family ipv4
+ exit-address-family
+!
+
+
+int loopback 2
+vrf forwarding VPN-A
+ip address 10.0.100.12 255.255.255.255
+no shut
+
+int f0/0.1 
+desc ***VPN-A***
+encapsulation dot1Q 10
+vrf forwarding VPN-A
+ip add 10.1.0.1 255.255.255.254
+no shut
+
+int gi 1/0
+no shut
+
+int g1/0.10
+desc ***PROD***
+vrf forwarding VPN-A
+encapsulation dot1Q 10
+ip add 10.1.0.129 255.255.255.240
+
+int g1/0.20
+desc ***GUEST***
+encapsulation dot1Q 20
+ip add 10.1.0.145 255.255.255.240
+
+int g1/0.30
+desc ***IOT***
+vrf forwarding VPN-A
+encapsulation dot1Q 30
+ip add 10.1.0.161 255.255.255.240
+
+
+router bgp 65001
+ address-family ipv4 vrf VPN-A
+  redistribute connected
+  neighbor 10.1.0.0 remote-as 65100
+  neighbor 10.1.0.0 activate
+  network 10.0.100.12 mask 255.255.255.255
+  bgp router-id 10.0.100.12
+ exit-address-family
+end
+
+
+---------------------------------------------------------------------------------------------------------------
+#A2
+---------------------------------------------------------------------------------------------------------------
+conf t
+
+vrf definition VPN-A
+rd 65100:1
+ address-family ipv4
+ exit-address-family
+!
+
+int loopback 2
+vrf forwarding VPN-A
+ip address 10.0.200.22 255.255.255.255
+
+int gi2/0.1
+desc ***VPN-A***
+encapsulation dot1Q 10
+vrf forwarding VPN-A
+ip add 10.1.0.3 255.255.255.254
+no shut
+
+int gi 3/0
+no shut
+
+int g3/0.10
+desc ***PROD***
+vrf forwarding VPN-A
+encapsulation dot1Q 10
+ip add 10.1.0.177 255.255.255.240
+
+int g3/0.20
+desc ***GUEST***
+encapsulation dot1Q 20
+ip add 10.1.0.193 255.255.255.240
+
+int g3/0.30
+desc ***IOT***
+vrf forwarding VPN-A
+encapsulation dot1Q 30
+ip add 10.1.0.209 255.255.255.240
+
+router bgp 65003
+ address-family ipv4 vrf VPN-A
+  redistribute connected
+  neighbor 10.1.0.2 remote-as 65100
+  neighbor 10.1.0.2 activate
+  network 10.0.200.22 mask 255.255.255.255
+  bgp router-id 10.0.200.22
+ exit-address-family
+end
+
+---------------------------------------------------------------------------------------------------------------
+#B1
+---------------------------------------------------------------------------------------------------------------
+conf t
+
+vrf definition VPN-B
+ rd 65100:2
+ address-family ipv4
+ exit-address-family
+!
+
+int loopback 2
+vrf forwarding VPN-B
+ip address 10.0.100.12 255.255.255.255
+
+int f0/0.1
+desc ***VPN-B***
+encapsulation dot1Q 20
+vrf forwarding VPN-B
+ip add 10.2.0.1 255.255.255.254
+no shut
+
+int gi 1/0
+no shut
+
+int g1/0.10
+desc ***PROD***
+vrf forwarding VPN-A
+encapsulation dot1Q 10
+ip add 10.2.0.129 255.255.255.240
+
+int g1/0.20
+desc ***GUEST***
+encapsulation dot1Q 20
+ip add 10.2.0.145 255.255.255.240
+
+int g1/0.30
+desc ***IOT***
+vrf forwarding VPN-A
+encapsulation dot1Q 30
+ip add 10.2.0.161 255.255.255.240
+
+
+router bgp 65002
+ address-family ipv4 vrf VPN-B
+  redistribute connected
+  neighbor 10.2.0.0 remote-as 65100
+  neighbor 10.2.0.0 activate
+  network 10.0.100.12 mask 255.255.255.255
+  bgp router-id 10.0.100.12
+ exit-address-family
+end
+
+
+---------------------------------------------------------------------------------------------------------------
+#B2
+---------------------------------------------------------------------------------------------------------------
+conf t
+
+vrf definition VPN-B
+ rd 65100:2
+ address-family ipv4
+ exit-address-family
+
+int loopback 2
+vrf forwarding VPN-B
+ip address 10.0.200.22 255.255.255.255
+
+int f0/0.1
+desc ***VPN-B***
+encapsulation dot1Q 20
+vrf forwarding VPN-B
+ip add 10.2.0.3 255.255.255.254
+no shut
+
+int gi 3/0
+no shut
+
+int g3/0.10
+desc ***PROD***
+vrf forwarding VPN-B
+encapsulation dot1Q 10
+ip add 10.2.0.177 255.255.255.240
+
+int g3/0.20
+desc ***GUEST***
+no vrf forwarding VPN-B
+encapsulation dot1Q 20
+ip add 10.2.0.193 255.255.255.240
+
+int g3/0.30
+desc ***IOT***
+vrf forwarding VPN-B
+encapsulation dot1Q 30
+ip add 10.2.0.209 255.255.255.240
+
+router bgp 65004
+ address-family ipv4 vrf VPN-B
+  redistribute connected
+  neighbor 10.2.0.2 remote-as 65100
+  neighbor 10.2.0.2 activate
+  network 10.0.200.22 mask 255.255.255.255
+  bgp router-id 10.0.200.22
+ exit-address-family
+
+
+---------------------------------------------------------------------------------------------------------------
+#NT1
+---------------------------------------------------------------------------------------------------------------
+
+vrf definition VPN-A
+rd 65100:1
+ route-target export 100:10
+ route-target import 100:10
+
+address-family ipv4
+ exit-address-family
+
+vrf definition VPN-B
+rd 65100:2
+ route-target export 100:20
+ route-target import 100:20
+
+address-family ipv4
+ exit-address-family
+
+conf t
+int loopback 3
+vrf forwarding VPN-A
+ip address 10.1.0.11 255.255.255.255
+
+int loopback 4
+vrf forwarding VPN-B
+ip address 10.2.0.11 255.255.255.255 
+
+int f0/0.1
+desc ***VPN-A***
+encapsulation dot1Q 10
+vrf forwarding VPN-A
+ip add 10.1.0.0 255.255.255.254
+no shut
+
+int f0/1.1
+desc ***VPN-B***
+encapsulation dot1Q 20
+vrf forwarding VPN-B
+ip add 10.2.0.0 255.255.255.254
+no shut
+
+
+
+
+router bgp 65100
+ !
+ address-family ipv4 vrf VPN-A
+  redistribute connected
+  neighbor 10.1.0.1 remote-as 65001     ! A1
+  neighbor 10.1.0.1 activate
+  bgp router-id 10.1.0.11
+ exit-address-family
+ !
+ address-family ipv4 vrf VPN-B
+  redistribute connected
+  neighbor 10.2.0.1 remote-as 65002     ! B1
+  neighbor 10.2.0.1 activate
+  bgp router-id 10.2.0.11
+
+ exit-address-family
+end
+
+
+conf t
+router bgp 65100
+ address-family vpnv4
+  neighbor 192.168.2.72 activate
+  neighbor 192.168.2.72 send-community extended
+  neighbor 192.168.2.73 activate
+  neighbor 192.168.2.73 send-community extended
+  neighbor 192.168.2.74 activate
+  neighbor 192.168.2.74 send-community extended
+ exit-address-family
+end
+
+
+#MPLS
+conf t
+
+int g1/0
+ mpls ip
+
+int g3/0
+ mpls ip
+
+end
+---------------------------------------------------------------------------------------------------------------
+#NT4
+---------------------------------------------------------------------------------------------------------------
+vrf definition VPN-A
+rd 65100:1
+ route-target export 100:10
+ route-target import 100:10
+
+address-family ipv4
+ exit-address-family
+
+
+vrf definition VPN-B
+rd 65100:2
+ route-target export 100:20
+ route-target import 100:20
+
+address-family ipv4
+ exit-address-family
+
+conf t
+int loopback 3
+vrf forwarding VPN-A
+ip address 10.1.0.14 255.255.255.255
+
+int loopback 4
+vrf forwarding VPN-B
+ip address 10.2.0.14 255.255.255.255 
+
+int gi2/0.1
+desc ***VPN-A***
+encapsulation dot1Q 10
+vrf forwarding VPN-A
+ip add 10.1.0.2 255.255.255.254
+no shut
+
+int f0/1.1
+desc ***VPN-B***
+encapsulation dot1Q 20
+vrf forwarding VPN-B
+ip add 10.2.0.2 255.255.255.254
+no shut
+
+
+router bgp 65100
+ !
+ address-family ipv4 vrf VPN-A
+  redistribute connected
+  neighbor 10.1.0.3 remote-as 65003     ! A2
+  neighbor 10.1.0.3 activate
+  bgp router-id 10.1.0.14
+ exit-address-family
+ !
+  address-family ipv4 vrf VPN-B
+  redistribute connected
+  neighbor 10.2.0.3 remote-as 65004     ! B2
+  neighbor 10.2.0.3 activate
+  bgp router-id 10.2.0.14
+
+ exit-address-family
+
+router bgp 65100
+ address-family vpnv4
+  neighbor 192.168.2.71 activate
+  neighbor 192.168.2.71 send-community extended
+  neighbor 192.168.2.72 activate
+  neighbor 192.168.2.72 send-community extended
+  neighbor 192.168.2.73 activate
+  neighbor 192.168.2.73 send-community extended
+
+
+#MPLS
+conf t
+
+int g1/0
+ mpls ip
+
+
+int f0/0
+ mpls ip
+end
+
+---------------------------------------------------------------------------------------------------------------
+#NT2
+---------------------------------------------------------------------------------------------------------------
+
+#MPLS
+conf t
+
+int g1/0
+ mpls ip
+
+int f0/0
+ mpls ip
+end
+
+
+---------------------------------------------------------------------------------------------------------------
+#NT3
+---------------------------------------------------------------------------------------------------------------
+
+#MPLS
+conf t
+
+int g1/0
+ mpls ip
+
+int g3/0
+ mpls ip
+end

@@ -11,7 +11,7 @@ ip address 10.2.0.1 255.255.255.254
 no shut
 !
 !
-int loopback 2 
+interface loopback 2 
 ip add 10.0.100.12 255.255.255.255
 no shut
 

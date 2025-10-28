@@ -1,16 +1,17 @@
+
 conf t
-int fastEthernet 0/0
+interface fastEthernet 0/0
 no shut
 !
 !
-int fastEthernet 0/0.1
-Description VLAN 20
+interface fastEthernet 0/0.1
+Description Vlan 20
 encapsulation dot1q 20
-ip add 10.2.0.3 255.255.255.254
+ip address 10.2.0.3 255.255.255.254
 no shut
 !
 !
-int loopback 2 
+interface loopback 2
 ip add 10.0.200.22 255.255.255.255
 no shut
 

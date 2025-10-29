@@ -1,10 +1,10 @@
-
 conf t
 
-int g1/0
+int g2/0
  mpls ip
  no shut
 !
+
 int g3/0
  mpls ip
  no shut

@@ -82,8 +82,6 @@ address-family ipv4 vrf VPN-B
 
 
 #2.2/B/
-ip cef
-
 int faste0/0
  mpls ip
  no shut
@@ -95,9 +93,7 @@ int g1/0
 
 
 #2.3/A/
-! MIGHT BE THAT THE COMMENTED IS ACTUALLY THE CORRECT CONFIG 
-! BUT MY UNDERSTANDING IS THAT THE P ROUTERS ONLY TALK MPLS
-! AND THEREFORE DOES NOT NEED TO BE CONFIGURED AS VPNV4 NEIGHBORS 
+
 router bgp 65100
  address-family vpnv4
   neighbor 192.168.2.71 activate
@@ -106,8 +102,3 @@ router bgp 65100
   neighbor 192.168.2.72 send-community extended
   neighbor 192.168.2.73 activate
   neighbor 192.168.2.73 send-community extended
-
-! router bgp 65100
-!  address-family vpnv4
-!   neighbor 192.168.2.1 activate  ! Loopback0 of NT1
-!   neighbor 192.168.2.1 send-community extended 

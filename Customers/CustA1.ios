@@ -16,29 +16,9 @@ no shut
 
 
 #2.2/A/
-! ###HERE I AM NOT SURE IF THE COMMENTED PARTS IS THE CORRECT CONFIG
-! ###CAN ALSO ADD ROUTER IDs TO BGP FOR MORE CLARITY
-! vrf definition VPN-A
-! rd 65100:1
-!  address-family ipv4
-! !
-
-! int loopback 2
-! vrf forwarding VPN-A
-! ip address 10.0.100.12 255.255.255.255
-! no shut
-
-! router bgp 65001
-! !
-! address-family ipv4 vrf VPN-A
-!  neighbor 10.1.0.0 remote-as 65100
-!  neighbor 10.1.0.0 activate
-!  network 10.0.100.12 mask 255.255.255.255
 
 router bgp 65001
 !
  neighbor 10.1.0.0 remote-as 65100
  neighbor 10.1.0.0 activate
  network 10.0.100.12 mask 255.255.255.255
-
- 

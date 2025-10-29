@@ -103,8 +103,4 @@ router bgp 65100
   neighbor 192.168.2.74 activate
   neighbor 192.168.2.74 send-community extended
 
-! router bgp 65100
-!  address-family vpnv4
-!   neighbor 192.168.2.4 activate  ! Loopback0 of NT4
-!   neighbor 192.168.2.4 send-community extended 
   

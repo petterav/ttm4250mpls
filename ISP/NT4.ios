@@ -96,9 +96,5 @@ int g1/0
 
 router bgp 65100
  address-family vpnv4
-  neighbor 192.168.2.71 activate
-  neighbor 192.168.2.71 send-community extended
-  neighbor 192.168.2.72 activate
-  neighbor 192.168.2.72 send-community extended
-  neighbor 192.168.2.73 activate
-  neighbor 192.168.2.73 send-community extended
+  neighbor 192.168.2.71 activate  ! Loopback0 of NT1
+  neighbor 192.168.2.71 send-community both

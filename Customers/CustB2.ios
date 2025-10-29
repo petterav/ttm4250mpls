@@ -23,3 +23,5 @@ router bgp 65004
  neighbor 10.2.0.2 remote-as 65100
  neighbor 10.2.0.2 activate
  network 10.0.200.22 mask 255.255.255.255
+
+ 

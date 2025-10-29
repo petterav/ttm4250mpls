@@ -67,12 +67,14 @@ no shut
 router bgp 65100
 !
 address-family ipv4 vrf VPN-A
- redistribute connected
+ !redistribute connected
+ network 10.1.0.14 mask 255.255.255.255
  neighbor 10.1.0.3 remote-as 65003
  neighbor 10.1.0.3 activate
 !
 address-family ipv4 vrf VPN-B
- redistribute connected
+ !redistribute connected
+ network 10.2.0.14 mask 255.255.255.255
  neighbor 10.2.0.3 remote-as 65004
  neighbor 10.2.0.3 activate
 
@@ -80,6 +82,8 @@ address-family ipv4 vrf VPN-B
 
 
 #2.2/B/
+ip cef
+
 int faste0/0
  mpls ip
  no shut
